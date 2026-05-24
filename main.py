@@ -1,30 +1,27 @@
 import os
+import logging
 from aiogram import Bot, Dispatcher, executor, types
-from aiohttp import web
-import os
-TOKEN = os.getenv('API_TOKEN')
-API_TOKEN = '8929835764:AAFrhg9VQAFXXJi2L7sDB6XEXNzAGQpgDuY'
-# Render beradigan portni olamiz
-PORT = int(os.environ.get('PORT', 8080))
 
+# Loglarni yoqish (xatolarni ko'rish uchun)
+logging.basicConfig(level=logging.INFO)
+
+# Tokenni Railway'dagi Variable dan olamiz
+API_TOKEN = os.getenv('API_TOKEN')
+
+# Botni sozlash
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
+# /start buyrug'i uchun javob
 @dp.message_handler(commands=['start'])
-async def start(message: types.Message):
-    await message.answer("Bot Webhook orqali ishga tushdi!")
+async def send_welcome(message: types.Message):
+    await message.answer("Assalomu alaykum! Bot ishlamoqda, demak hammasi joyida!")
 
-async def on_startup(dp):
-    # Telegramga botimiz qayerdaligini aytamiz
-    await bot.set_webhook("https://korea-jarima-bot.onrender.com")
+# Qolgan barcha xabarlar uchun javob
+@dp.message_handler()
+async def echo(message: types.Message):
+    await message.answer(f"Siz yozdingiz: {message.text}")
 
 if __name__ == '__main__':
-    # Webhook rejimida ishga tushiramiz
-    executor.start_webhook(
-        dispatcher=dp,
-        webhook_path='/',
-        on_startup=on_startup,
-        skip_updates=True,
-        host="0.0.0.0",
-        port=PORT,
-    )
+    print("Bot ishga tushdi...")
+    executor.start_polling(dp, skip_updates=True)
