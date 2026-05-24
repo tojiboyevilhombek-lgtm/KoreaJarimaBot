@@ -1,7 +1,7 @@
 import os
 from aiogram import Bot, Dispatcher, executor, types
 
-# Railway'dagi Variable dan tokenni o'qiydi
+# Tokenni Railway'dagi Variable bo'limidan oladi
 API_TOKEN = os.getenv('API_TOKEN')
 
 bot = Bot(token=API_TOKEN)
@@ -11,10 +11,6 @@ dp = Dispatcher(bot)
 async def start(message: types.Message):
     await message.answer("Assalomu alaykum! Bot ishlamoqda!")
 
-@dp.message_handler()
-async def echo(message: types.Message):
-    await message.answer("Men sizning xabaringizni oldim!")
-
 if __name__ == '__main__':
-    # Webhook emas, Polling ishlatamiz
+    # Webhook emas, oddiy Polling ishlatamiz
     executor.start_polling(dp, skip_updates=True)
