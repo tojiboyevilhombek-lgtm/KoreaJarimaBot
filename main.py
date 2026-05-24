@@ -12,11 +12,16 @@ API_TOKEN = os.getenv('API_TOKEN')
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
+# Webhookni o'chirish funksiyasi
+async def on_startup(dispatcher):
+    await bot.delete_webhook()
+    logging.info("Webhook o'chirildi va bot ishga tushdi!")
+
 # /start buyrug'i uchun javob
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     await message.answer("Assalomu alaykum! Bot ishlamoqda!")
 
 if __name__ == '__main__':
-    # Webhook emas, polling ishlatamiz (bu eng barqaror usul)
-    executor.start_polling(dp, skip_updates=True)
+    # Polling ishlatamiz
+    executor.start_polling(dp, on_startup=on_startup, skip_updates=True)
