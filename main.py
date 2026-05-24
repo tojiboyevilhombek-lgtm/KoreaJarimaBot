@@ -2,7 +2,7 @@ import os
 from aiogram import Bot, Dispatcher, executor, types
 from aiohttp import web
 
-API_TOKEN = '7849691664:AAFWqkeB1i3eqJw57CuqOIRHp6QaOVQF6MA'
+API_TOKEN = '8929835764:AAFrhg9VQAFXXJi2L7sDB6XEXNzAGQpgDuY'
 # Render beradigan portni olamiz
 PORT = int(os.environ.get('PORT', 8080))
 
